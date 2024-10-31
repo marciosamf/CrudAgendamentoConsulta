@@ -12,10 +12,10 @@ Não foi implementado: pequisa, paginação e relatório por ser algo mais compl
 Instalação
 ------------
 
-Criar a tabela no Banco de dados: 
+Criar o banco e as tabelas no MySql: 
 Estão no script "sql_bd.sql" na raiz do projeto.
 
-O arquivo Conexao.php dentro da pasta 'app/conexao' já está configurado para rodar localmente.<br>
+O arquivo Conexao.php dentro da pasta 'app/conexao' já está configurado para rodar localmente com MySql.<br>
 
 Aterar parâmetros caso necessário (dbname,user,password) na conexão de acordo com o banco. <br>
 
