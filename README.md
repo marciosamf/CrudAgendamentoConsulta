@@ -1,6 +1,6 @@
 # CRUD Simples Utilizando PHP + MySql + Bootstrap 4
 Cadastro Simples para agendamento de consultas, incluir, excluir e editar em um crud personalizado.
-Foi optado nesse modelo para desenvolcimento mais rápido de aplição simples. 
+Foi optado nesse modelo para desenvolvimento mais rápido em aplição simples. 
 Não foi implementado: pequisa, paginação e relatório por ser algo mais complexo e pode levar mais tempo.
 
 === Projeto rodou com Laragon
