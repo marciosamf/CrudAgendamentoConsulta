@@ -10,7 +10,6 @@ class Agendamento
     private $nomeMedico;
     private $data;
     private $hora;
-    
 
     function getId()
     {

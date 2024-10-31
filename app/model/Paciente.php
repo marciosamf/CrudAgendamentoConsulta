@@ -5,7 +5,7 @@ class Paciente
 
     private $id;
     private $nomePaciente;
-   
+
     function getId()
     {
         return $this->id;
@@ -25,5 +25,4 @@ class Paciente
     {
         $this->nomePaciente = $nomePaciente;
     }
-
 }

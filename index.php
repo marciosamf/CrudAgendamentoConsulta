@@ -11,12 +11,12 @@ include_once "./app/model/Paciente.php";
 include_once "./app/dao/MedicoDAO.php";
 include_once "./app/model/Medico.php";
 
-//instancia as classes
+//instancia as classes par listagem dos dados na tela
 $agendamento = new Agendamento();
 $agendamentodao = new AgendamentoDAO();
 
 $pacientedao = new PacienteDao();
-$listaPacientes = $pacientedao->getPacientes();
+$listaPaciente = $pacientedao->getPacientes();
 
 $medicodao = new MedicoDAO();
 $listaMedico = $medicodao->getMedicos();
@@ -31,7 +31,7 @@ $listaMedico = $medicodao->getMedicos();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>CRUD Simples PHP</title>
+    <title>Agendamento de consulta</title>
     <style>
         .menu,
         thead {
@@ -53,13 +53,14 @@ $listaMedico = $medicodao->getMedicos();
         </div>
     </nav>
     <div class="container">
-           <form action="app/controller/AgendamentoController.php" method="POST">
+
+        <form action="app/controller/AgendamentoController.php" method="POST">
             <div class="row">
                 <div class="col-md-3">
                     <label>Nome Paciente</label>
                     <select id="id_paciente" name="id_paciente" class="form-control form-select form-select-lg mb-1">
                         <option></option>
-                        <?php foreach ($listaPacientes as $pacientes) { ?>
+                        <?php foreach ($listaPaciente as $pacientes) { ?>
                             <option value="<?php echo $pacientes->getId() ?>"><?php echo $pacientes->getNomePaciente() ?></option>
                         <?php } ?>
                     </select>
@@ -118,7 +119,11 @@ $listaMedico = $medicodao->getMedicos();
                                 </a>
                             </td>
                         </tr>
+
                         <!-- Modal -->
+                        <!-- retorna os dados do paciente selecionado e exibe na tela de edição com os campos preenchidos -->
+                        <?php  $dadosMedico = $agendamentodao->read($agendamento->getId())  ?>
+
                         <div class="modal fade" id="editar><?= $agendamento->getId() ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
@@ -133,28 +138,33 @@ $listaMedico = $medicodao->getMedicos();
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Nome Paciente</label>
-                                                    <select id="id_paciente" name="id_paciente" class="form-control form-select form-select-lg mb-1">
-                                                        <option></option>
-                                                        <?php foreach ($listaPacientes as $pacientes) { ?>
-                                                            <option value="<?php echo $pacientes->getId() ?>"><?php echo $pacientes->getNomePaciente() ?></option>
+                                                    <select id="id_paciente" name="id_paciente" class="form-control form-select form-select-lg mb-0">
+                                                        <option value="">Selecione</option>
+                                                        <?php foreach ($listaPaciente as $pacientes) {
+                                                            $selected = ($dadosMedico[0]->getIdPaciente() === $pacientes->getId()) ? "selected" : '';
+                                                        ?>
+                                                            <option <?php echo $selected; ?> value="<?php echo $pacientes->getId() ?>"><?php echo $pacientes->getNomePaciente() ?> </option>
                                                         <?php } ?>
                                                     </select>
                                                 </div>
+
                                                 <div class="col-md-3">
                                                     <label>Nome Médico</label>
                                                     <select id="id_medico" name="id_medico" class="form-control form-select form-select-lg mb-1">
                                                         <option></option>
-                                                        <?php foreach ($listaMedico as $medicos) { ?>
-                                                            <option value="<?php echo $medicos->getId() ?>"><?php echo $medicos->getNomeMedico() ?></option>
+                                                        <?php foreach ($listaMedico as $medicos) {
+                                                            $selected = ($dadosMedico[0]->getIdMedico() === $medicos->getId()) ? "selected" : '';
+                                                        ?>
+                                                            <option <?php echo $selected; ?> value="<?php echo $medicos->getId() ?>"><?php echo $medicos->getNomeMedico() ?></option>
                                                         <?php } ?>
                                                     </select>
-                                                    
+
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Data</label>
-                                                    <input type="date" name="data" value="" class="form-control" require />
+                                                    <input type="date" name="data" value="<?= $agendamento->getData() ?>" class="form-control" require />
                                                 </div>
-                                                                            
+
                                                 <div class="col-md-3">
                                                     <label>Hora</label>
                                                     <input type="time" name="hora" value="<?= $agendamento->getHora() ?>" class="form-control" require />

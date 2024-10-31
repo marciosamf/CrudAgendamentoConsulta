@@ -25,5 +25,4 @@ class Medico
     {
         $this->nomeMedico = $nomeMedico;
     }
-
 }

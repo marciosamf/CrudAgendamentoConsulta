@@ -1,6 +1,9 @@
 <?php
+/**
+ * Realiza o controle das solicitaçoes do fronte para incluir, editar e excluir 
+ * 
+ */
 include_once "../conexao/Conexao.php";
-
 include_once "../model/Agendamento.php";
 include_once "../dao/AgendamentoDAO.php";
 
@@ -15,43 +18,66 @@ $d = filter_input_array(INPUT_POST);
 if (isset($_POST['cadastrar'])) {
 
     $registro = new stdClass;
-    $registro->IdPaciente = $d['id_paciente'];
-    $registro->IdMedico = $d['id_medico'];
-    $registro->agendamento_data = $d['data'];
-    $registro->agendamento_hora = $d['hora'];
+    $registro->idPaciente = $d['id_paciente'];
+    $registro->idMedico = $d['id_medico'];
+    $registro->agendamentoData = $d['data'];
+    $registro->agendamentoHhora = $d['hora'];
 
+    /* verifica se o registro já está na base*/
     $registros = $agendamentodao->validateInsertUpdate($registro);
 
     if ($registros[0] > 0) {
 
         $msg = "Já existe uma agendamento para esse cliente!";
         header("Location: ../../");
- 
+
+        /* faz a inserção caso retorno da consulta seja vazio*/
     } else {
 
         $agendamento->setIdPaciente($d['id_paciente']);
         $agendamento->setIdMedico($d['id_medico']);
         $agendamento->setData($d['data']);
         $agendamento->setHora($d['hora']);
-        
+
         $agendamentodao->create($agendamento);
 
         header("Location: ../../");
     }
 }
+
 // se a requisição for editar
 else if (isset($_POST['editar'])) {
 
-    $agendamento->setId($d['id']);
-    $agendamento->setIdPaciente($d['id_paciente']);
-    $agendamento->setIdMedico($d['id_medico']);
-    $agendamento->setData($d['data']);
-    $agendamento->setHora($d['hora']);
+    $registro = new stdClass;
+    $registro->idPaciente = $d['id_paciente'];
+    $registro->idMedico = $d['id_medico'];
+    $registro->agendamentoData = $d['data'];
+    $registro->agendamentoHora = $d['hora'];
 
-    $agendamentodao->update($agendamento);
+    /* verifica se o registro já está na base*/
+    $registros = $agendamentodao->validateInsertUpdate($registro);
 
-    header("Location: ../../");
+    if ($registros[0] > 0) {
+
+        $msg = "Já existe uma agendamento para esse cliente!";
+        header("Location: ../../");
+
+        /* faz a inserção caso retorno da consulta seja vazio*/
+    } else {
+
+        $agendamento->setId($d['id']);
+        $agendamento->setIdPaciente($d['id_paciente']);
+        $agendamento->setIdMedico($d['id_medico']);
+        $agendamento->setData($d['data']);
+        $agendamento->setHora($d['hora']);    
+    
+        $agendamentodao->update($agendamento);
+
+        header("Location: ../../");
+    }  
+
 }
+
 // se a requisição for deletar
 else if (isset($_GET['del'])) {
 

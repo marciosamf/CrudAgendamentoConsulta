@@ -4,8 +4,11 @@
 */
 class MedicoDAO
 {
-    public function getMedicos(){
-        
+
+    //busca todos os médicos da tabela retornando a lista em um combo no front
+    public function getMedicos()
+    {
+
         try {
             $sql = "SELECT medico.id AS id_medico, 
                            medico.nome AS nome_medico
@@ -22,7 +25,7 @@ class MedicoDAO
         }
     }
 
-
+    
     private function listaMedicos($row)
     {
         $medico = new Medico();
@@ -30,5 +33,4 @@ class MedicoDAO
         $medico->setNomeMedico($row['nome_medico']);
         return $medico;
     }
-
 }

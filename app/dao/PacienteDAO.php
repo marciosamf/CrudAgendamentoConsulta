@@ -4,8 +4,10 @@
 */
 class PacienteDAO
 {
-    public function getPacientes(){
-        
+    //busca todos os pacientes da tabela retornando a lista em um combo no front
+    public function getPacientes()
+    {
+
         try {
             $sql = "SELECT paciente.id AS id_paciente, 
                            paciente.nome AS nome_paciente
@@ -30,6 +32,4 @@ class PacienteDAO
         $paciente->setNomePaciente($row['nome_paciente']);
         return $paciente;
     }
-
-
 }
